@@ -5,21 +5,23 @@ module BigML
     BATCH_PREDICTION_PROPERTIES = [
       :category, :code, :created, :credits, :dataset, :dataset_status,
       :description, :fields, :dataset, :model, :model_status, :name,
-      :objective_fields, :prediction, :prediction_path, :private, :resource,
+      :objective_field, :prediction, :prediction_path, :private, :resource,
       :source, :source_status, :status, :tags, :updated
     ]
 
     attr_reader *BATCH_PREDICTION_PROPERTIES
 
     class << self
-      def create(model_or_ensemble, dataset, options = {})
+      def create(resource, dataset, options = {})
         arguments = { dataset: dataset }
-        if model_or_ensemble.start_with? 'model'
-          arguments[:model] = model_or_ensemble
-        elsif model_or_ensemble.start_with? 'ensemble'
-          arguments[:ensemble] = model_or_ensemble
+        if resource.start_with? 'model'
+          arguments[:model] = resource
+        elsif resource.start_with? 'ensemble'
+          arguments[:ensemble] = resource
+        elsif resource.start_with? 'deepnet'
+          arguments[:deepnet] = resource
         else
-          raise ArgumentError, "Expected model or ensemble, got #{model_or_ensemble}"
+          raise ArgumentError, "Expected model, ensemble or deepnet, got #{resource}"
         end
         response = client.post("/#{resource_name}", {}, arguments.merge(options))
         self.new(response) if response.success?
