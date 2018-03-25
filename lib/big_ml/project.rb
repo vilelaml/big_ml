@@ -12,6 +12,10 @@ module BigML
       Source.create(url,{},{:project => self.resource})
     end
 
+    def add_inline_source(name, data, options = {})
+      Source.create_inline(data,options,{:name => name, :project => self.resource})
+    end
+
     class << self
       def create(name,options = {})
         response = client.post("/#{resource_name}", {}, options.merge(:name => name))

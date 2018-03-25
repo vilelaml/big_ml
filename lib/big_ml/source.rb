@@ -3,8 +3,8 @@ require 'big_ml/base'
 module BigML
   class Source < Base
     SOURCE_PROPERTIES = [
-      :code, :content_type, :created, :credits, :fields, :file_name, :md5, 
-      :name, :number_of_datasets, :number_of_models, :number_of_predictions, 
+      :code, :content_type, :created, :credits, :fields, :file_name, :md5,
+      :name, :number_of_datasets, :number_of_models, :number_of_predictions,
       :private, :resource, :size, :source_parser, :status, :type, :updated
     ]
 
@@ -17,6 +17,11 @@ module BigML
     class << self
       def create(file, options = {}, body = {})
         response = client.post("/#{resource_name}", options.merge(:multipart => true),body.merge(:remote => file))
+        self.new(response) if response.success?
+      end
+
+      def create_inline(data, options = {}, body = {})
+        response = client.post("/#{resource_name}", options,body.merge(:data => data))
         self.new(response) if response.success?
       end
     end
