@@ -7,6 +7,7 @@ require 'big_ml/source'
 require 'big_ml/evaluation'
 require 'big_ml/ensemble'
 require 'big_ml/deepnet'
+require 'big_ml/opti_ml'
 require 'big_ml/project'
 
 require 'big_ml/util/config'

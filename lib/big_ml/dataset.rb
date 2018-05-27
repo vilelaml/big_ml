@@ -23,6 +23,10 @@ module BigML
       Deepnet.create(resource,options)
     end
 
+    def to_optiml(options = {})
+      OptiML.create(resource,{},options)
+    end
+
     def train_test_split(sample_rate = 0.8, train_set_name = "Training", test_set_name = "Test")
       body = {
         :origin_dataset => self.resource,
